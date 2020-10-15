@@ -1,0 +1,129 @@
+plugins {
+   id 'com.android.application'
+   id 'kotlin-android'
+   id 'kotlin-android-extensions'
+   id 'kotlin-kapt'
+   id 'dagger.hilt.android.plugin'
+   id "androidx.navigation.safeargs.kotlin"
+   id 'io.gitlab.arturbosch.detekt'
+   id 'com.google.gms.google-services'
+   id 'com.google.firebase.firebase-perf'
+   id 'com.google.firebase.crashlytics'
+}
+
+android {
+    compileSdkVersion Versions.compileSdk
+    buildToolsVersion "29.0.3"
+
+    defaultConfig {
+        applicationId "com.yasincidem.boilerplate"
+        minSdkVersion Versions.minSdk
+        targetSdkVersion Versions.targetSdk
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner Deps.instrumentation_runner
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled true
+            firebaseCrashlytics {
+                mappingFileUploadEnabled true
+            }
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    buildFeatures {
+        dataBinding = true
+        viewBinding = true
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: "libs", include: ["*.jar"])
+
+    implementation project(':theme')
+
+    // Kotlin standard library
+    api Deps.stdlib
+
+    //Core
+    api Deps.core_ktx
+    api Deps.activity_ktx
+    api Deps.fragment_ktx
+
+    // DI
+    api Deps.hilt_android
+    api Deps.hilt_viewmodel
+    kapt Deps.hilt_compiler
+    kapt Deps.hilt_android_compiler
+
+    // Android UI and appcompat
+    api Deps.appCompat
+    api Deps.material
+    api Deps.constraintLayout
+
+    // Image Loading
+    api Deps.glide
+    kapt Deps.glidecodegen
+
+    // HTTP Client
+    api Deps.retrofit
+    api Deps.moshi_converter
+
+    // Moshi
+    api Deps.moshi
+    kapt Deps.moshicodegen
+
+    // Coroutines
+    api Deps.coroutines
+    api Deps.coroutines_android
+
+    api Deps.network_flow
+
+    // ViewModel and LiveData
+    api Deps.viewModel_ktx
+    api Deps.liveData_ktx
+    api Deps.lifecycle_runtime_ktx
+    api Deps.lifecycle_ext
+
+    // Paging
+    api Deps.paging
+
+    // Navigation
+    api Deps.navigation_ui_ktx
+    api Deps.navigation_fragment_ktx
+
+    //Firebase
+    api Deps.fb_analytics_ktx
+    api Deps.fb_perf
+    api Deps.fb_crashlytics
+
+    //Insets
+    api Deps.insetter
+
+    // Testing
+    testImplementation Deps.junit_ktx
+    androidTestImplementation Deps.test_core_ktx
+    androidTestImplementation Deps.test_runner
+
+    androidTestImplementation Deps.navigation_test
+    debugImplementation Deps.fragment_test
+
+    // Debug
+    api Deps.timber
+    debugImplementation Deps.leakcanary
+    debugImplementation Deps.chucker
+    releaseImplementation Deps.chuckernoop
+}
